@@ -132,7 +132,7 @@ void imprimeProduto(struct produto p)
   printf("Nome: %s\n", p.nome);
   printf("Preco: R$ %.2f\n", p.preco);
   printf("Quantidade: %d\n", p.quantidade);
-  printf("-------------------\n");
+  printf("\n");
 }
 
 void imprimeTabela(Hash *ha)
@@ -144,7 +144,7 @@ void imprimeTabela(Hash *ha)
     return;
   }
 
-  printf("\n=== TABELA HASH ===\n");
+  printf("\nTABELA HASH \n");
   printf("Tamanho: %d\n", ha->TABLE_SIZE);
   printf("Elementos: %d\n", ha->qtd);
   printf("-------------------\n");
@@ -157,7 +157,7 @@ void imprimeTabela(Hash *ha)
     else
       printf("Codigo %d - %s\n", ha->itens[i]->codigo, ha->itens[i]->nome);
   }
-  printf("===================\n\n");
+  printf("\n\n");
 }
 
 Hash *criaHash(int tamanho);

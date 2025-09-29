@@ -3,17 +3,12 @@
 int main()
 {
   int opcao;
-  Hash *tabela = criaHash(10);
-
-  if (tabela == NULL)
-  {
-    printf("Erro ao criar tabela hash!\n");
-    return 1;
-  }
+  Hash *tabela;
 
   do
   {
-    printf("\n=== MENU ===\n");
+    printf("\nMENU\n");
+    printf("0 - Criar tabela\n");
     printf("1 - Inserir produto\n");
     printf("2 - Buscar produto\n");
     printf("3 - Mostrar tabela\n");
@@ -23,8 +18,24 @@ int main()
 
     switch (opcao)
     {
+    case 0:
+    {
+      tabela = criaHash(10);
+      if (tabela == NULL)
+      {
+        printf("Erro ao criar tabela hash!\n");
+        return 1;
+      }
+      printf("tabela hash criada!\n");
+      break;
+    }
     case 1:
     {
+      if(tabela == NULL){
+        printf("Erro: tabela NAO CRIADA");
+        break;
+      }
+
       struct produto p;
       printf("Codigo: ");
       scanf("%d", &p.codigo);
@@ -43,6 +54,10 @@ int main()
     }
     case 2:
     {
+      if(tabela == NULL){
+        printf("Erro: tabela NAO CRIADA");
+        break;
+      }
       int codigo;
       struct produto encontrado;
       printf("Codigo para busca: ");
@@ -60,6 +75,10 @@ int main()
       break;
     }
     case 3:
+      if(tabela == NULL){
+        printf("Erro: tabela NAO CRIADA");
+        break;
+      }
       imprimeTabela(tabela);
       break;
     case 4:
