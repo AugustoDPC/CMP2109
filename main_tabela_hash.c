@@ -3,7 +3,7 @@
 int main()
 {
   int opcao;
-  Hash *tabela;
+  Hash *tabela = NULL;
 
   do
   {
@@ -13,6 +13,8 @@ int main()
     printf("2 - Buscar produto\n");
     printf("3 - Mostrar tabela\n");
     printf("4 - Sair\n");
+    printf("5 - Inserir produto (Sem Colisao)\n");
+    printf("6 - Buscar produto (Sem Colisao)\n");
     printf("Escolha: ");
     scanf("%d", &opcao);
 
@@ -81,6 +83,37 @@ int main()
       }
       imprimeTabela(tabela);
       break;
+    case 5: 
+    
+      if (tabela == NULL) { printf("Erro: tabela NAO CRIADA\n"); break; }
+
+      struct produto p;
+      printf("Codigo: "); scanf("%d", &p.codigo);
+      printf("Nome: ");   scanf(" %[^\n]", p.nome);
+      printf("Preco: ");  scanf("%f", &p.preco);
+      printf("Quantidade: "); scanf("%d", &p.quantidade);
+
+      if (insereHash_SemColisao(tabela, p))
+        printf("Produto inserido (sem colisao)!\n");
+      else
+        printf("Falha: posicao ocupada ou tabela cheia.\n");
+      break;
+    
+    case 6: // Buscar (sem colisao)
+    
+      if (tabela == NULL) { printf("Erro: tabela NAO CRIADA\n"); break; }
+
+      int codigo; struct produto encontrado;
+      printf("Codigo para busca: "); scanf("%d", &codigo);
+
+      if (buscaHash_SemColisao(tabela, codigo, &encontrado)) {
+        printf("Produto encontrado (sem colisao):\n");
+        imprimeProduto(encontrado);
+      } else {
+        printf("Produto nao encontrado (sem colisao).\n");
+      }
+      break;
+    
     case 4:
       printf("Saindo...\n");
       break;

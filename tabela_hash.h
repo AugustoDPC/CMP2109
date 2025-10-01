@@ -95,7 +95,7 @@ int insereHash_EnderAberto(Hash *ha, struct produto p)
 
 int sondagemQuadratica(int pos, int i, int TABLE_SIZE)
 {
-  pos = pos + 2 * i + 5 * 1 * 1;
+  pos = pos + 2 * i + 5 * i * i;
   return (pos & 0x7FFFFFFF) % TABLE_SIZE;
 }
 
@@ -124,6 +124,41 @@ int buscaHash_EnderAberto(Hash *ha, int codigo, struct produto *p)
     }
   }
   return 0;
+}
+
+int insereHash_SemColisao(Hash *ha, struct produto p)
+{
+  if (ha == NULL || ha->qtd == ha->TABLE_SIZE){
+    return 0;
+  }
+  int pos = chaveDivisao(p.codigo, ha->TABLE_SIZE);
+
+  struct produto *novo = (struct produto *)malloc(sizeof(struct produto));
+  
+  if (novo == NULL){
+    return 0;
+  }
+
+  *novo = p;
+  ha->itens[pos] = novo;
+  ha->qtd++;
+  return 1;
+}
+
+int buscaHash_SemColisao(Hash *ha, int codigo, struct produto *p)
+{
+  if (ha == NULL)
+    return 0;
+
+  int pos = chaveDivisao(codigo, ha->TABLE_SIZE);
+
+  
+  if (ha->itens[pos] != NULL ) {
+    return 0;
+  }
+
+  *p = *(ha->itens[pos]);
+  return 1;
 }
 
 void imprimeProduto(struct produto p)
