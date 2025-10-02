@@ -134,6 +134,10 @@ int insereHash_SemColisao(Hash *ha, struct produto p)
   int pos = chaveDivisao(p.codigo, ha->TABLE_SIZE);
 
   struct produto *novo = (struct produto *)malloc(sizeof(struct produto));
+  if(ha->itens[pos] != NULL){
+    printf("Erro: deu colisao\n");
+    return 0;
+  }
   
   if (novo == NULL){
     return 0;
