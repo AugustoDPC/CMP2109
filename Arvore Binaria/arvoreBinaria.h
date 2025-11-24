@@ -2,87 +2,136 @@
 #define ARVORE_BINARIA_H
 
 #include <stdio.h>
+#include <stdlib.h>
 
-#define MAX 100
+typedef struct NO {
+    int info;
+    struct NO *esq;
+    struct NO *dir;
+} NO;
 
-typedef struct
-{
-  int arvoreBinaria[MAX];
-} Arvore;
 
-int esquerda(int i) { return 2 * i + 1; }
-int direita(int i) { return 2 * i + 2; }
+typedef NO* ArvBin;
 
-void iniciarArvore(Arvore *a)
-{
-  for (int i = 0; i < MAX; i++)
-  {
-    a->arvoreBinaria[i] = -1;
-  }
-}
 
-int inserir(Arvore *a, int valor)
-{
-  int i = 0;
-  while (i < MAX)
-  {
-    if (a->arvoreBinaria[i] == -1)
-    {
-      a->arvoreBinaria[i] = valor;
-      return 1;
+ArvBin *criarArvore() {
+    ArvBin *raiz = (ArvBin *) malloc(sizeof(ArvBin));
+    if (raiz != NULL) {
+        *raiz = NULL; // árvore começa vazia
     }
-    if (valor == a->arvoreBinaria[i])
-    {
-      return 0;
+    return raiz;
+}
+
+
+int inserir(ArvBin *raiz, int valor) {
+    if (raiz == NULL) return 0;
+
+    NO *novo = (NO *) malloc(sizeof(NO));
+    if (novo == NULL) return 0;
+
+    novo->info = valor;
+    novo->esq = NULL;
+    novo->dir = NULL;
+
+    if (*raiz == NULL) {
+        
+        *raiz = novo;
+        return 1;
     }
-    if (valor < a->arvoreBinaria[i])
-      i = esquerda(i);
+
+  
+    NO *atual = *raiz;
+    NO *pai = NULL;
+
+    while (atual != NULL) {
+        pai = atual;
+
+        if (valor == atual->info) {
+            free(novo);
+            return 0;
+        } else if (valor < atual->info) {
+            atual = atual->esq;
+        } else {
+            atual = atual->dir;
+        }
+    }
+
+    if (valor < pai->info)
+        pai->esq = novo;
     else
-      i = direita(i);
-  }
-  return 0;
+        pai->dir = novo;
+
+    return 1;
 }
 
-int buscar(Arvore *a, int valor)
-{
-  int i = 0;
-  while (i < MAX && a->arvoreBinaria[i] != -1)
-  {
-    if (valor == a->arvoreBinaria[i])
-      return 1;
-    if (valor < a->arvoreBinaria[i])
-      i = esquerda(i);
-    else
-      i = direita(i);
-  }
-  return 0;
+int buscar(ArvBin *raiz, int valor) {
+    if (raiz == NULL) return 0;
+    NO *atual = *raiz;
+
+    while (atual != NULL) {
+        if (valor == atual->info)
+            return 1;
+        else if (valor < atual->info)
+            atual = atual->esq;
+        else
+            atual = atual->dir;
+    }
+
+    return 0;
 }
 
-void preOrdem(Arvore *a, int i)
-{
-  if (i >= MAX || a->arvoreBinaria[i] == -1)
-    return;
-  printf("%d ", a->arvoreBinaria[i]);
-  preOrdem(a, esquerda(i));
-  preOrdem(a, direita(i));
+void preOrdem_NO(NO *no) {
+    if (no == NULL) return;
+    printf("%d ", no->info);
+    preOrdem_NO(no->esq);
+    preOrdem_NO(no->dir);
 }
 
-void emOrdem(Arvore *a, int i)
-{
-  if (i >= MAX || a->arvoreBinaria[i] == -1)
-    return;
-  emOrdem(a, esquerda(i));
-  printf("%d ", a->arvoreBinaria[i]);
-  emOrdem(a, direita(i));
+void emOrdem_NO(NO *no) {
+    if (no == NULL) return;
+    emOrdem_NO(no->esq);
+    printf("%d ", no->info);
+    emOrdem_NO(no->dir);
 }
 
-void posOrdem(Arvore *a, int i)
-{
-  if (i >= MAX || a->arvoreBinaria[i] == -1)
-    return;
-  posOrdem(a, esquerda(i));
-  posOrdem(a, direita(i));
-  printf("%d ", a->arvoreBinaria[i]);
+void posOrdem_NO(NO *no) {
+    if (no == NULL) return;
+    posOrdem_NO(no->esq);
+    posOrdem_NO(no->dir);
+    printf("%d ", no->info);
+}
+
+void libera_NO(NO *no) {
+    if (no == NULL) return;
+
+    libera_NO(no->esq); 
+    libera_NO(no->dir); 
+    free(no);           
+}
+
+//* libera_ArvBin:
+void libera_ArvBin(ArvBin *raiz) {
+    if (raiz == NULL) return;
+    libera_NO(*raiz);  
+    free(raiz);        
+}
+
+void imprimirPreOrdem(ArvBin *raiz) {
+    if (raiz == NULL) { printf("(arvore nao existe)\n"); return; }
+    preOrdem_NO(*raiz);
+    printf("\n");
+}
+
+void imprimirEmOrdem(ArvBin *raiz) {
+    if (raiz == NULL) { printf("(arvore nao existe)\n"); return; }
+    emOrdem_NO(*raiz);
+    printf("\n");
+}
+
+void imprimirPosOrdem(ArvBin *raiz) {
+    if (raiz == NULL) { printf("(arvore nao existe)\n"); return; }
+    posOrdem_NO(*raiz);
+    printf("\n");
 }
 
 #endif
