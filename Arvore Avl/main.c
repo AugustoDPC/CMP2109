@@ -19,6 +19,7 @@ int main(){
         printf("9 - Liberar arvore\n");
         printf("10 - Sair\n");
         printf("Escolha: ");
+
         if(scanf("%d",&op)!=1) return 0;
 
         switch(op){
@@ -28,45 +29,58 @@ int main(){
                 if(!avl) puts("Erro ao criar.");
                 else { criada=1; puts("Arvore criada!"); }
                 break;
+
             case 1:
                 if(!criada){ puts("Crie a arvore primeiro!"); break; }
                 printf("Valor: "); scanf("%d",&v);
                 puts(inserirAVL(avl,v) ? "Inserido!" : "Falha/duplicado.");
                 break;
+
             case 2:
                 if(!criada){ puts("Crie a arvore primeiro!"); break; }
                 printf("Valor: "); scanf("%d",&v);
-                puts(removerAVL(avl,v) ? "Removido (se existia)!" : "Nao removido.");
+                puts(removerAVL(avl,v) ? "Removido!" : "Nao removido.");
                 break;
+
             case 3:
                 if(!criada){ puts("Crie a arvore primeiro!"); break; }
                 printf("Valor: "); scanf("%d",&v);
                 puts(buscarAVL(avl,v) ? "Encontrado!" : "Nao encontrado.");
                 break;
+
             case 4:
                 if(!criada){ puts("Crie a arvore primeiro!"); break; }
-                imprimirPreOrdem(avl); break;
+                imprimirPreOrdem(avl); printf("\n"); break;
+
             case 5:
                 if(!criada){ puts("Crie a arvore primeiro!"); break; }
-                imprimirEmOrdem(avl); break;
+                imprimirEmOrdem(avl); printf("\n"); break;
+
             case 6:
                 if(!criada){ puts("Crie a arvore primeiro!"); break; }
-                imprimirPosOrdem(avl); break;
+                imprimirPosOrdem(avl); printf("\n"); break;
+
             case 7:
                 if(!criada){ puts("Crie a arvore primeiro!"); break; }
                 printf("Tamanho: %d\n", tamanhoAVL(avl)); break;
+
             case 8:
                 if(!criada){ puts("Crie a arvore primeiro!"); break; }
                 printf("Altura: %d\n", alturaAVL(avl)); break;
+
             case 9:
                 if(!criada){ puts("Nenhuma arvore criada."); break; }
                 liberarAVL(avl); avl=NULL; criada=0; puts("Arvore liberada!"); break;
+
             case 10:
                 if(criada) liberarAVL(avl);
-                puts("Saindo..."); break;
-            default: puts("Opcao invalida.");
+                puts("Saindo...");
+                break;
+
+            default:
+                puts("Opcao invalida.");
         }
-    }while(op!=10);
+    } while(op!=10);
 
     return 0;
 }
